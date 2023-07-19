@@ -44,19 +44,20 @@ button{
 }
 #portfolio .edit_btn{
     position: relative;
-    top: -30px;
+    top: -20px;
     left: 160px;
 }
 
 /*          OVERLAY         */
 
-.overlay{
+.modal_container{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 /*          MODAL           */
@@ -99,7 +100,7 @@ button{
 
 /*          CANCEL          */
 
-.cancel_modal{
+.x_btn{
     display: flex;
     justify-content: flex-end;
 }
@@ -156,4 +157,7 @@ button{
     color: #D65353;
     background-color: transparent;
     text-decoration: underline
+}
+.hide{
+	display: none;
 }

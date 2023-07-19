@@ -1,21 +1,36 @@
-export  function activateBackend(){
+export  function activateBackoffice(){
     const token = localStorage.getItem("token");
-    const backend = document.getElementById("client_side")
+    const backoffice = document.querySelector(".backoffice");
+    const editBtns = document.querySelectorAll(".edit_btn");
+    const filterMenu = document.querySelector(".filterContainer");
 
     if(token){
-        backend.classList.remove('hide')
+        backoffice.style.display = "block";
+        editBtns.forEach((btn) => {
+            btn.style.display = "block";
+          });      
+
+        filterMenu.style.display = "none";
     }
+
 }
 
-/*
-export function closeBackend(){
-    const cancelBtn = document.querySelector(".cancel_modal");
-    const modal = document.querySelector(".modal")
+export function openBackoffice(){
+    const portfolioEditBtn = document.querySelector("#portfolio . btn");
+    const modal = document.querySelector(".modal_overlay");
 
-    cancelBtn.addEventListener("click", function() {
-        closeBackend();
-        modal.classList.add('hide');
+    portfolioEditBtn.addEventListener("click", function(){
+        modal.style.display = "block";
     })
 }
-*/
 
+
+export function closeBackoffice(){
+    const cancelBtn = document.querySelector(".x_btn");
+    const modal = document.querySelector(".modal_container")
+
+    cancelBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+    })
+}
+ 

@@ -18,16 +18,15 @@
 	<script type="module" src="assets/script.js" defer></script>
 </head>
 <body>
-	<div id="client_side" class="hide">
+	<div class="backoffice" class="hide">
 		<div class="top_bar">
 			<button class="edition_mode"><i class="fa-regular fa-pen-to-square"></i>Mode édition</button>
 			<button class="publish_changes">publier les changements</button>
 		</div>
-		<div class="overlay"></div>
-
-		<dialog class="modal hide">
+		<div class="modal_container">
+		<dialog class="modal">
 			<div class="modal_header">
-				<div class="cancel_modal">
+				<div class="x_btn">
 					<i class="fa-solid fa-xmark"></i>
 				</div>
 				<h2>Galerie Photo</h2>
@@ -40,6 +39,7 @@
 				<button class="delete_btn">Supprimer la galerie</button>
 			</div>
 		</dialog>
+		</div>	
 	</div>
 <div class="main_container">
 	<header>

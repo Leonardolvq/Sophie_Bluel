@@ -1,4 +1,4 @@
-import { activateBackend, } from "./modale.js"
+import { activateBackend, openModal, closeBackoffice } from "./modale.js"
 
 //Fonction pour recevoir les données
 let works
@@ -111,3 +111,5 @@ function filterSettings(event) {
 }
 
 activateBackend();
+openModal();
+closeBackoffice();
