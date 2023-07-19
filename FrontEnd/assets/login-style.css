@@ -1,0 +1,72 @@
+#login{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#login h2, #login a{
+    text-align: center;
+    text-decoration: none;
+}
+ 
+#login h2{
+    margin: 100px 0 37px 0;
+}
+
+#login a{
+    color: inherit;
+    text-decoration: underline;
+}
+
+#login a:hover{
+    color: #B1663C;
+}
+
+#login label{
+    text-align: left;
+    margin-bottom: 7px;
+}
+
+#login form{
+    display: flex;
+    flex-direction: column;
+    width: 379px;
+    margin: 37px 0 0 0;
+}
+
+#login form input[type="email"], #login form input[type="password"]{
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    width: 100%;
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+#login input {
+	height: 36px;
+	font-size: 1em;
+	border: none;
+}
+
+body, html{
+	height: 100%;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+footer{
+    position: fixed;
+	bottom: 0;
+	height: 60px;
+    width: 100%;
+    max-width: 1140px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}

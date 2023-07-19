@@ -1,0 +1,32 @@
+#portfolio .filterBtn{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: #1D6154;
+	background-color: #FFFEF8;
+    border: #1D6154 solid 1px;
+	margin : 2em auto ;
+    padding: 0 14px 0 14px;
+	height: 36px;
+	text-align: center;
+	border-radius: 60px;
+    margin-right: 10px
+}
+
+#portfolio .filterBtn:hover{
+	color: #FFFEF8;
+	background-color: #1D6154;
+}
+
+#portfolio .filterBtn:active{
+	color: #FFFEF8;
+	background-color: #1D6154;
+}
+
+.filterContainer{
+    align-self: center;
+    order: -1;
+}
+
+.hide {
+    display: none;
+}
