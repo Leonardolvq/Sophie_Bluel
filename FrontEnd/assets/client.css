@@ -36,6 +36,7 @@ button{
     font-family: 'Work Sans';
     font-size: 14px;
     font-weight: 100;
+    background-color: transparent;
 }
 #introduction .edit_btn{
     margin-left: 57px;
@@ -44,8 +45,8 @@ button{
 }
 #portfolio .edit_btn{
     position: relative;
-    top: -20px;
-    left: 160px;
+    top: -62px;
+    left: 169px;
 }
 
 /*          OVERLAY         */

@@ -12,18 +12,16 @@ export  function activateBackoffice(){
 
         filterMenu.style.display = "none";
     }
-
 }
 
 export function openBackoffice(){
-    const portfolioEditBtn = document.querySelector("#portfolio . btn");
-    const modal = document.querySelector(".modal_overlay");
+    const portfolioEditBtn = document.querySelector("#portfolio .edit_btn");
+    const modal = document.querySelector(".modal_container");
 
     portfolioEditBtn.addEventListener("click", function(){
         modal.style.display = "block";
     })
 }
-
 
 export function closeBackoffice(){
     const cancelBtn = document.querySelector(".x_btn");
@@ -33,4 +31,3 @@ export function closeBackoffice(){
         modal.style.display = "none";
     })
 }
- 

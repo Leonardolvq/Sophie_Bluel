@@ -15,41 +15,47 @@
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="./assets/dynamic-styles.css">
 	<link rel="stylesheet" href="./assets/client.css">
-	<script type="module" src="assets/script.js" defer></script>
+	<script type="module" src="assets/script.js"></script>
 </head>
 <body>
-	<div class="backoffice" class="hide">
+	<div class="backoffice hide" >
+		<!--MODAL TOP BAR-->
 		<div class="top_bar">
 			<button class="edition_mode"><i class="fa-regular fa-pen-to-square"></i>Mode édition</button>
 			<button class="publish_changes">publier les changements</button>
 		</div>
-		<div class="modal_container">
+		<!--MODAL + OVERLAY-->
+		<div class="modal_container overlay hide">
 		<dialog class="modal">
+			<!--MODAL HEADER-->
 			<div class="modal_header">
 				<div class="x_btn">
 					<i class="fa-solid fa-xmark"></i>
 				</div>
 				<h2>Galerie Photo</h2>
 			</div>
+			<!--MODAL CONTENT-->
 			<div class="modal_content">
-
+				<!--Généré par JAVASCRIPT-->
 			</div>
+			<!--MODAL FOOTER-->
 			<div class="modal_footer">
 				<button class="add_picture">Ajouter une photo</button>
 				<button class="delete_btn">Supprimer la galerie</button>
 			</div>
 		</dialog>
-		</div>	
+		</div>
+
 	</div>
 <div class="main_container">
 	<header>
 		<a href="../FrontEnd/index.html"><h1>Sophie Bluel <span>Architecte d'intérieur</span></h1></a>
 		<nav>
 			<ul>
-				<a href="#portfolio"><li>projets</li></a>
-				<a href="#contact"><li>contact</li></a>
-				<a href="./login.html"><li>login</li></a>
-				<a href="#"><li><img src="./assets/icons/instagram.png" alt="Instagram"></li></a>
+				<li><a href="#portfolio">projets</a></li>
+				<li><a href="#contact">contact</a></li>
+				<li><a href="./login.html">login</a></li>
+				<li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram"></a></li>
 			</ul>
 		</nav>
 	</header>
@@ -57,7 +63,7 @@
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
-				<span class="edit_btn hide"><a><i class="fa-regular fa-pen-to-square"></i>Modifier</a></span>
+				<button class="edit_btn hide"><i class="fa-regular fa-pen-to-square"></i>Modifier</button>
 			</figure>
 			<article>
 				<h2>Designer d'espace</h2>
@@ -67,7 +73,8 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets <br><span class="edit_btn hide"><a><i class="fa-regular fa-pen-to-square"></i>Modifier</a></h2>
+			<h2>Mes Projets</h2>
+			<button class="edit_btn hide"><i class="fa-regular fa-pen-to-square"></i>Modifier</button>
 			<div class="gallery">
 				<!--Généré par JAVASCRIPT-->
 			</div>
@@ -90,7 +97,7 @@
 	<footer>
 		<nav>
 			<ul>
-				<a href="#"><li>Mentions Légales</li></a>
+				<li><a href="#">Mentions Légales</a></li>
 			</ul>
 		</nav>
 	</footer>
