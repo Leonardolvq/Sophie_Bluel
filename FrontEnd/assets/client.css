@@ -68,9 +68,7 @@ button{
     height: 731px;
     background-color: #FFF;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 15%;
     padding: 30px;
     border-radius: 10px ;
     border: none;
@@ -120,9 +118,64 @@ button{
     width: 420px;
     margin-bottom: 38px;
     border-bottom: 1px solid #B3B3B3;
-    background-color:beige;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }
 
+/*          MODAL CONTENT           */
+
+.modal_content {
+	width: 420px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 9px;
+	grid-row-gap: 0;
+    position: relative;
+
+    background-color: #B3B3B3;
+}
+
+.modal_content figure{
+    width: 76.8px;
+    height: 100%;
+    cursor: pointer;
+}
+.modal_content  .image_container{
+    position: relative;
+}
+
+.modal_content  figure img{
+	width: 100%;
+    margin-bottom: 2px;
+}
+
+figure .fa-trash-can{
+    right: 5px;
+}
+
+figure .fa-arrows-up-down-left-right{
+    right: 27px;
+    visibility: hidden;
+}
+
+figure .fa-arrows-up-down-left-right:hover{
+    visibility: visible;
+}
+
+figure .fa-solid{
+    position: absolute;
+    top: 6px;
+    color: #FFF;
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /*          MODAL FOOTER          */
 
@@ -162,3 +215,4 @@ button{
 .hide{
 	display: none;
 }
+

@@ -1,10 +1,6 @@
-import { activateBackoffice, openBackoffice, closeBackoffice } from "./modale.js"
-activateBackoffice();
-openBackoffice();
-closeBackoffice();
-
+import { Backoffice } from "./modale.js"
 //Fonction pour recevoir les données
-let works
+let works;
 async function getData() {
 
      works = window.localStorage.getItem("works");
@@ -112,3 +108,38 @@ function filterSettings(event) {
     generateWorks(filteredWorks);
     }
 }
+
+Backoffice();
+
+
+function generateThumbnails(works){
+    const galleryModal = document.querySelector(".modal_content");
+    galleryModal.innerHTML = "";
+        
+    for (let i = 0; i < works.length; i++){
+        const project = works[i];
+
+        const figure = document.createElement("figure");
+
+        const imgContainer = document.createElement("div");
+        imgContainer.classList.add("image_container")
+        imgContainer.innerHTML = `
+        <i class='fa-solid fa-trash-can'></i>
+        <i class='fa-solid fa-arrows-up-down-left-right'></i>
+        `;
+
+        const imgProjet = document.createElement("img");
+        imgProjet.src = project.imageUrl;
+        imgProjet.alt = project.title;
+
+        const editBtn = document.createElement("span");
+        editBtn.innerText = "éditer";
+
+        galleryModal.appendChild(figure);
+        figure.appendChild(imgContainer);
+        imgContainer.appendChild(imgProjet)
+        figure.appendChild(editBtn);
+    }
+}
+
+generateThumbnails(works)

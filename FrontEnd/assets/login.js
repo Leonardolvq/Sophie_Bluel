@@ -40,3 +40,14 @@ async function validateForm(){
 }
 
 validateForm();
+
+function removeToken(){
+    const SophieBluelBtn = document.querySelector('header a');
+    const token = window.localStorage.getItem('token');
+
+    SophieBluelBtn.addEventListener("click", function(){
+        localStorage.removeItem('token');
+    })
+}
+
+removeToken()
