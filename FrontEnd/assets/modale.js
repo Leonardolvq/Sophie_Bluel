@@ -13,6 +13,7 @@ function activateBackoffice(){
         filterMenu.style.display = "none";
     }
 }
+
 function openBackoffice(){
     const portfolioEditBtn = document.querySelector("#portfolio .edit_btn");
     const modal = document.querySelector(".modal_container");
@@ -35,4 +36,8 @@ export function Backoffice(){
     activateBackoffice();
     openBackoffice();
     closeBackoffice();
+}
+
+export function deleteWork(){
+    
 }

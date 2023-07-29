@@ -1,4 +1,3 @@
-import { Backoffice } from "./modale.js"
 //Fonction pour recevoir les données
 let works;
 async function getData() {
@@ -92,6 +91,9 @@ async function generateFiltersBtns(works) {
 generateFiltersBtns(works)
 
 
+
+//      BACKOFFICE      //
+
 function filterSettings(event) {
     const categoryId = parseInt(event.target.dataset.id);
 
@@ -109,9 +111,42 @@ function filterSettings(event) {
     }
 }
 
-Backoffice();
+function activateBackoffice(){
+    const token = localStorage.getItem("token");
+    const backoffice = document.querySelector(".backoffice");
+    const editBtns = document.querySelectorAll(".edit_btn");
+    const filterMenu = document.querySelector(".filterContainer");
+
+    if(token){
+        backoffice.style.display = "block";
+        editBtns.forEach((btn) => {
+            btn.style.display = "inline";
+          });      
+
+        filterMenu.style.display = "none";
+    }
+}
+
+function openBackoffice(){
+    const portfolioEditBtn = document.querySelector("#portfolio .edit_btn");
+    const modal = document.querySelector(".modal_container");
+
+    portfolioEditBtn.addEventListener("click", function(){
+        modal.style.display = "block";
+    })
+}
+
+function closeBackoffice(){
+    const cancelBtn = document.querySelector(".x_btn");
+    const modal = document.querySelector(".modal_container")
+
+    cancelBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+    })
+}
 
 
+//Génère les thumbnail de la gallerie du modal
 function generateThumbnails(works){
     const galleryModal = document.querySelector(".modal_content");
     galleryModal.innerHTML = "";
@@ -123,9 +158,15 @@ function generateThumbnails(works){
 
         const imgContainer = document.createElement("div");
         imgContainer.classList.add("image_container")
+        imgContainer.dataset.id = project.id;
+
+        const deleteBtn = document.createElement('i');
+        deleteBtn.classList.add("fa-solid", "fa-trash-can", "delete_icon");
+        deleteBtn.dataset.id = project.id;
+        const deleteBtnId = deleteBtn.dataset.id
+
         imgContainer.innerHTML = `
-        <i class='fa-solid fa-trash-can'></i>
-        <i class='fa-solid fa-arrows-up-down-left-right'></i>
+        <i class='fa-solid fa-arrows-up-down-left-right move_icon'></i>
         `;
 
         const imgProjet = document.createElement("img");
@@ -138,8 +179,49 @@ function generateThumbnails(works){
         galleryModal.appendChild(figure);
         figure.appendChild(imgContainer);
         imgContainer.appendChild(imgProjet)
+        imgContainer.appendChild(deleteBtn)
         figure.appendChild(editBtn);
+
     }
 }
 
 generateThumbnails(works)
+
+
+function deleteWork(works){
+    const deleteBtns = document.querySelectorAll('.delete_icon');
+    deleteBtns.forEach(deleteBtn => {
+        const deleteBtnId = deleteBtn.dataset.id    
+        deleteBtn.addEventListener("click", async function(event){   
+            event.preventDefault();
+
+            const token = window.localStorage.getItem("token")
+        
+            const response = await fetch(`http://localhost:5678/api/works/${deleteBtnId}`, {
+                method: 'DELETE',
+                headers: {
+                  "accept": "application/json",
+                  "Authorization": `Bearer ${token}`
+                },
+              })
+              window.localStorage.removeItem(`${deleteBtnId}`)
+
+              console.log(`Le projet ${deleteBtnId} a correctement été supprimé`);
+
+              console.log(window.localStorage)
+              getData(works)
+              generateWorks(works)
+              generateThumbnails(works)
+        })
+    })
+}
+
+
+function Backoffice(){
+    activateBackoffice();
+    openBackoffice();
+    closeBackoffice();
+    deleteWork(works)
+}
+
+Backoffice();

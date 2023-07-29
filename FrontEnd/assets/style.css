@@ -228,3 +228,19 @@ footer{
 	justify-content: flex-end;
 	align-items: center;
 }
+.mes_projets_container{
+	width: 100%;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	flex-direction: column-reverse;
+}
+.mes_projets_container h2{
+	display: inline-block;
+}
+
+.mes_projets_container .edit_btn{
+	position: relative;
+	top: 35px;
+	margin-left: 330px;
+}

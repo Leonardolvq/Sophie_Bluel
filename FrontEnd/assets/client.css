@@ -1,5 +1,8 @@
 .top_bar{
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
     height: 59px;
     background-color: #000;
     display: flex;
@@ -44,9 +47,6 @@ button{
     top: 15px;
 }
 #portfolio .edit_btn{
-    position: relative;
-    top: -62px;
-    left: 169px;
 }
 
 /*          OVERLAY         */
@@ -68,8 +68,8 @@ button{
     height: 731px;
     background-color: #FFF;
     position: fixed;
-    margin-top: 15%;
-    padding: 30px;
+    margin-top: 5%;
+    padding: 32px 36px;
     border-radius: 10px ;
     border: none;
     display: flex;
@@ -113,36 +113,25 @@ button{
 /*          MODAL BODY          */
 
 .modal_content{
-    height: 100%;
-    min-height: 400px;
     width: 420px;
+    height: auto;
     margin-bottom: 38px;
+    padding-bottom: 35px;
     border-bottom: 1px solid #B3B3B3;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-}
-
-/*          MODAL CONTENT           */
-
-.modal_content {
-	width: 420px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 	grid-column-gap: 9px;
-	grid-row-gap: 0;
-    position: relative;
-
-    background-color: #B3B3B3;
 }
 
 .modal_content figure{
-    width: 76.8px;
-    height: 100%;
     cursor: pointer;
+    margin-bottom: 12px;
 }
+
 .modal_content  .image_container{
     position: relative;
+    height: auto;
+    object-fit: cover;
 }
 
 .modal_content  figure img{
@@ -150,17 +139,27 @@ button{
     margin-bottom: 2px;
 }
 
-figure .fa-trash-can{
+/*          BODY ICON              */
+
+figure .delete_icon{
     right: 5px;
 }
 
-figure .fa-arrows-up-down-left-right{
+.modal_content .image_container .move_icon {
     right: 27px;
     visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.6s;
 }
 
-figure .fa-arrows-up-down-left-right:hover{
+.modal_content .image_container:hover .move_icon {
     visibility: visible;
+    opacity: 1;
+}
+
+.modal_content .image_container .fa-solid:hover{
+    font-size: 11px;
+    transition: 0.1s;
 }
 
 figure .fa-solid{
@@ -175,6 +174,12 @@ figure .fa-solid{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/*          BODY BTN            */
+
+figure span:hover{
+    text-decoration: underline;
 }
 
 /*          MODAL FOOTER          */
