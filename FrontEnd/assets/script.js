@@ -42,6 +42,13 @@ function generateWorks(works){
         figure.appendChild(imgProjet);
         figure.appendChild(legendProject);
     }
+    
+    const refresh = document.querySelector('header a');
+    refresh.addEventListener("click", async function(works){
+        window.localStorage.removeItem('works')
+        getData(works);
+        generateWorks(works);
+    })
 }
 
 generateWorks(works);
@@ -155,19 +162,17 @@ function generateThumbnails(works){
         const project = works[i];
 
         const figure = document.createElement("figure");
+        figure.dataset.id = project.id;
 
         const imgContainer = document.createElement("div");
-        imgContainer.classList.add("image_container")
-        imgContainer.dataset.id = project.id;
+        imgContainer.classList.add("image_container");
+        imgContainer.innerHTML = `
+        <i class='fa-solid fa-arrows-up-down-left-right move_icon'></i>
+        `;
 
         const deleteBtn = document.createElement('i');
         deleteBtn.classList.add("fa-solid", "fa-trash-can", "delete_icon");
         deleteBtn.dataset.id = project.id;
-        const deleteBtnId = deleteBtn.dataset.id
-
-        imgContainer.innerHTML = `
-        <i class='fa-solid fa-arrows-up-down-left-right move_icon'></i>
-        `;
 
         const imgProjet = document.createElement("img");
         imgProjet.src = project.imageUrl;
@@ -181,7 +186,6 @@ function generateThumbnails(works){
         imgContainer.appendChild(imgProjet)
         imgContainer.appendChild(deleteBtn)
         figure.appendChild(editBtn);
-
     }
 }
 
@@ -195,27 +199,30 @@ function deleteWork(works){
         deleteBtn.addEventListener("click", async function(event){   
             event.preventDefault();
 
-            const token = window.localStorage.getItem("token")
-        
+            const token = window.localStorage.getItem("token");/*
             const response = await fetch(`http://localhost:5678/api/works/${deleteBtnId}`, {
                 method: 'DELETE',
                 headers: {
                   "accept": "application/json",
                   "Authorization": `Bearer ${token}`
                 },
-              })
-              window.localStorage.removeItem(`${deleteBtnId}`)
+              })*/
 
-              console.log(`Le projet ${deleteBtnId} a correctement été supprimé`);
+              works = works.filter(work => work.id !== parseInt(deleteBtnId));
 
-              console.log(window.localStorage)
-              getData(works)
-              generateWorks(works)
-              generateThumbnails(works)
-        })
-    })
+      // Mettre à jour les données dans le localStorage
+      window.localStorage.setItem("works", JSON.stringify(works));
+
+      console.log(`Le projet ${deleteBtnId} a correctement été supprimé`);
+      console.log(works)
+              
+      const thumbnailToDelete = document.querySelector(`[data-id="${deleteBtnId}"]`);
+      if (thumbnailToDelete) {
+        thumbnailToDelete.remove();
+      }
+    });
+  });
 }
-
 
 function Backoffice(){
     activateBackoffice();

@@ -229,6 +229,7 @@ footer{
 	align-items: center;
 }
 .mes_projets_container{
+	order: -1;
 	width: 100%;
 	text-align: center;
 	display: flex;

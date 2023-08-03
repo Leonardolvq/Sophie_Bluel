@@ -1,5 +1,5 @@
 .top_bar{
-    position: absolute;
+    position: inherit;
     top: 0;
     left: 0;
     width: 100vw;
@@ -46,8 +46,7 @@ button{
     position: relative;
     top: 15px;
 }
-#portfolio .edit_btn{
-}
+
 
 /*          OVERLAY         */
 
@@ -68,7 +67,7 @@ button{
     height: 731px;
     background-color: #FFF;
     position: fixed;
-    margin-top: 5%;
+    margin-top: 15%;
     padding: 32px 36px;
     border-radius: 10px ;
     border: none;
@@ -114,18 +113,26 @@ button{
 
 .modal_content{
     width: 420px;
+    min-height: 430px;
     height: auto;
     margin-bottom: 38px;
     padding-bottom: 35px;
     border-bottom: 1px solid #B3B3B3;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	grid-column-gap: 9px;
+
+    display: flex;
+    justify-content: space-around;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-flow: row wrap;
+    gap: 9px;
+    overflow-y: auto
 }
 
 .modal_content figure{
     cursor: pointer;
-    margin-bottom: 12px;
+    margin-bottom: 3px;
+    width: 5em;
+    height: auto;
 }
 
 .modal_content  .image_container{
@@ -177,7 +184,9 @@ figure .fa-solid{
 }
 
 /*          BODY BTN            */
-
+figure span{
+    font-size: 12px;
+}
 figure span:hover{
     text-decoration: underline;
 }
