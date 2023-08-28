@@ -2,7 +2,6 @@
     position: inherit;
     top: 0;
     left: 0;
-    width: 100vw;
     height: 59px;
     background-color: #000;
     display: flex;
@@ -47,7 +46,6 @@ button{
     top: 15px;
 }
 
-
 /*          OVERLAY         */
 
 .modal_container{
@@ -64,7 +62,7 @@ button{
 
 .modal{
     width: 630px;
-    height: 731px;
+    height: auto;
     background-color: #FFF;
     position: fixed;
     margin-top: 15%;
@@ -80,68 +78,65 @@ button{
 /*          MODAL HEADER          */
 
 .modal_header{
-    height: 90px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     flex-flow: column nowrap;
-    margin-bottom: 46px;
+    margin-bottom: 36px;
 }
-
 .modal_header h2{
     color: #000;
     font-family: 'Work Sans';
     font-weight: 400;
     font-size: 26px;
     text-align: center;
+    margin-top: 16px
 }
 
-/*          CANCEL          */
+/*          HEADER BUTTONS          */
 
-.x_btn{
+.modal_header_buttons{
     display: flex;
+    flex-flow: row nowrap;
     justify-content: flex-end;
 }
-
-.fa-xmark{
+.modal_header_buttons .fa-solid{
     font-size: 19px;
     cursor: pointer;
 }
 
-
+.modal_header_buttons.page2{
+    justify-content: space-between;
+}
 /*          MODAL BODY          */
 
-.modal_content{
+.modal_gallery{
     width: 420px;
-    min-height: 430px;
+    min-height: 355px;
     height: auto;
     margin-bottom: 38px;
     padding-bottom: 35px;
     border-bottom: 1px solid #B3B3B3;
 
     display: flex;
-    justify-content: space-around;
     justify-content: flex-start;
     align-content: flex-start;
     flex-flow: row wrap;
     gap: 9px;
     overflow-y: auto
 }
-
-.modal_content figure{
+.modal_gallery figure{
     cursor: pointer;
     margin-bottom: 3px;
     width: 5em;
     height: auto;
 }
-
-.modal_content  .image_container{
+.modal_gallery  .image_container{
     position: relative;
     height: auto;
     object-fit: cover;
 }
-
-.modal_content  figure img{
+.modal_gallery  figure img{
 	width: 100%;
     margin-bottom: 2px;
 }
@@ -151,24 +146,20 @@ button{
 figure .delete_icon{
     right: 5px;
 }
-
-.modal_content .image_container .move_icon {
+.modal_gallery .image_container .move_icon {
     right: 27px;
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.6s;
 }
-
-.modal_content .image_container:hover .move_icon {
+.modal_gallery .image_container:hover .move_icon {
     visibility: visible;
     opacity: 1;
 }
-
-.modal_content .image_container .fa-solid:hover{
+.modal_gallery .image_container .fa-solid:hover{
     font-size: 11px;
     transition: 0.1s;
 }
-
 figure .fa-solid{
     position: absolute;
     top: 6px;
@@ -184,6 +175,7 @@ figure .fa-solid{
 }
 
 /*          BODY BTN            */
+
 figure span{
     font-size: 12px;
 }
@@ -193,35 +185,34 @@ figure span:hover{
 
 /*          MODAL FOOTER          */
 
-.modal_footer{
+.modal_content{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
-.modal_footer button{
+.modal_content button{
 	width: 237px;
 }
-
-.modal_footer .add_picture{
+.modal_content .add_picture{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
 	height: 36px;
+    width: 237px; 
 	text-align: center;
 	border-radius: 60px ;
     border: none;
 }
-.modal_footer .add_picture:hover{
+.modal_content .add_picture:hover{
 	background-color: #0E2F28;
 }
-.modal_footer .delete_btn{
+.modal_content .delete_btn{
     color: #D65353;
     background-color: transparent;
 }
-.modal_footer .delete_btn:hover{
+.modal_content .delete_btn:hover{
     color: #D65353;
     background-color: transparent;
     text-decoration: underline
@@ -230,3 +221,107 @@ figure span:hover{
 	display: none;
 }
 
+/*          MODAL PAGE 2            */
+
+.modal form{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 420px;
+}
+
+.dropZone{
+    position: relative;
+    width: 420px;
+    height: 169px;
+    background-color: #E8F1F6;
+    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+    overflow: hidden;
+}
+.input_img_container{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+}
+.dropZone i{
+    font-size: 46px;
+    color: #B9C5CC;
+    margin: 28px auto 21px;
+}
+.modal .dropZone label{
+    cursor: pointer;
+    margin: 0;
+    width: 173px;
+    height: 36px;
+    text-align: center;
+    background-color: #CBD6DC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    color: #306685;
+    font-family: 'Syne';
+    font-weight: 100;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+.modal .dropZone p{
+    font-size: 10px;
+    color: #444444;
+    text-align: center;
+}
+.modal form input[type="text"],
+.modal form select{
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    background-color: white;
+    margin: 10px  0;
+}
+.modal form input[type="submit"]{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	height: 36px;
+    width: 237px; 
+	text-align: center;
+	border-radius: 60px ;
+    border: none;
+    margin: 32px auto 23px;
+}
+.modal form input[type="submit"][disabled] {
+    /* Ajoutez vos styles pour le bouton désactivé ici */
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+}
+.modal form input[type="submit"]:hover{
+    background-color: #0E2F28;
+}
+.modal form select{
+    margin-bottom: 47px;
+}
+.modal form label{
+    margin-top: 21px;
+}
+.separator{
+    width: 420px;
+    height: 1px;
+    background-color: #B3B3B3;
+    border-radius: 1px;
+}
+
+.image-preview {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}

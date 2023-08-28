@@ -1,4 +1,6 @@
+
 //Fonction pour recevoir les données
+
 let works;
 async function getData() {
 
@@ -9,22 +11,26 @@ async function getData() {
         works = await response.json();
 
         const valeurWorks = JSON.stringify(works);
-
         window.localStorage.setItem("works", valeurWorks);
+
         console.log(`From fetch`);
+        generateWorks(works)
     } else {
         works = JSON.parse(works);
         console.log(`From localStorage`);
+
+        generateWorks(works)
     }
 }
 
 getData();
 
 //Fonction pour générer les travaux 
+
 function generateWorks(works){
     const gallery = document.querySelector(".gallery");
     gallery.innerHTML = "";
-        
+
     for (let i = 0; i < works.length; i++){
         const project = works[i];
 
@@ -42,18 +48,12 @@ function generateWorks(works){
         figure.appendChild(imgProjet);
         figure.appendChild(legendProject);
     }
-    
-    const refresh = document.querySelector('header a');
-    refresh.addEventListener("click", async function(works){
-        window.localStorage.removeItem('works')
-        getData(works);
-        generateWorks(works);
-    })
 }
 
 generateWorks(works);
 
 //Fonction pour générer les boutons filtre
+
 async function generateFiltersBtns(works) {
 
     const filterArray = [];
@@ -70,7 +70,6 @@ async function generateFiltersBtns(works) {
 
     portfolio.appendChild(filterContainer)
 
-    
     for (let i = 0; i < works.length; i++){
         const filterBtn = document.createElement("button");
         filterBtn.classList.add("filterBtn");
@@ -92,14 +91,9 @@ async function generateFiltersBtns(works) {
   filterBtns.forEach(function(btn) {
     btn.addEventListener("click", filterSettings);
   });
-
 }
 
 generateFiltersBtns(works)
-
-
-
-//      BACKOFFICE      //
 
 function filterSettings(event) {
     const categoryId = parseInt(event.target.dataset.id);
@@ -117,6 +111,15 @@ function filterSettings(event) {
     generateWorks(filteredWorks);
     }
 }
+
+const refresh = document.querySelector('header a');
+refresh.addEventListener("click", async function(){
+    window.localStorage.removeItem('works');
+    await getData()
+    console.log("After removing works:", works);
+})
+
+//      BACKOFFICE      //
 
 function activateBackoffice(){
     const token = localStorage.getItem("token");
@@ -144,18 +147,21 @@ function openBackoffice(){
 }
 
 function closeBackoffice(){
-    const cancelBtn = document.querySelector(".x_btn");
     const modal = document.querySelector(".modal_container")
-
-    cancelBtn.addEventListener("click", function() {
-        modal.style.display = "none";
+    const cancelBtns = document.querySelectorAll(".x_btn");
+    cancelBtns.forEach((closeBtn) => {
+        closeBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            modal.style.display = "none";
+            console.log(event)
+        })
     })
 }
 
-
 //Génère les thumbnail de la gallerie du modal
+
 function generateThumbnails(works){
-    const galleryModal = document.querySelector(".modal_content");
+    const galleryModal = document.querySelector(".modal_gallery");
     galleryModal.innerHTML = "";
         
     for (let i = 0; i < works.length; i++){
@@ -198,23 +204,20 @@ function deleteWork(works){
         const deleteBtnId = deleteBtn.dataset.id    
         deleteBtn.addEventListener("click", async function(event){   
             event.preventDefault();
-
-            const token = window.localStorage.getItem("token");/*
+            const token = window.localStorage.getItem("token");
             const response = await fetch(`http://localhost:5678/api/works/${deleteBtnId}`, {
                 method: 'DELETE',
                 headers: {
                   "accept": "application/json",
                   "Authorization": `Bearer ${token}`
                 },
-              })*/
-
+              })
               works = works.filter(work => work.id !== parseInt(deleteBtnId));
-
       // Mettre à jour les données dans le localStorage
+
       window.localStorage.setItem("works", JSON.stringify(works));
 
       console.log(`Le projet ${deleteBtnId} a correctement été supprimé`);
-      console.log(works)
               
       const thumbnailToDelete = document.querySelector(`[data-id="${deleteBtnId}"]`);
       if (thumbnailToDelete) {
@@ -224,11 +227,164 @@ function deleteWork(works){
   });
 }
 
+// FORMULAIRE NEW WORK DU MODAL
+const page2 = {
+    page: "ajouterUnePhoto",
+    contenu : `            
+    <form method="post" id="form_add_work">
+        <div class="dropZone">
+            <div class="input_img_container" id="input_img_container">
+                <i class="fa-regular fa-image"></i>
+                <label for="input_file">+ Ajouter photo</label>
+                <input type="file" id="input_file" hidden name="photo" accept="image/png, image/jpeg, image/jpg" required/>
+                <p>jpg, png : 4mo max</p>
+            </div>
+            <img id="image-preview" class="image-preview">
+        </div>
+        <label for="titre">Titre</label>
+        <input type="text" id="title" title="title" placeholder="Titre" required/>
+        <label for="Catégorie">Catégorie</label>
+        <select name="categories" id="categorie-select" required>
+            <option value="1">Objets</option>
+            <option value="2">Appartements</option>
+            <option value="3">Hotels & restaurants</option>
+        </select>
+        <div class="separator"></div>
+        <input class="valid_button" type="submit" value="Valider" disabled="disabled">
+    </form>
+            `
+}
+
+// FONCTION POUR RETOURNER SUR LA PAGE DE LA GALERIE THUMBNAILS
+function switchThumbnailPage() {
+    if (goBackBtn) {
+        goBackBtn.addEventListener("click", function() {
+            modalContent.innerHTML = initialModalContent;
+            goBackBtn.classList.add('hide');
+            modalHeader.classList.remove('page2');
+        });
+    }
+}
+
+// FONCTION POUR AFFICHER IMAGE DU FORMULAIRE
+function handleImageUpload() {
+    const image = document.querySelector(".selected_image");
+    const input = document.querySelector("#input_file");
+
+    input.addEventListener("change", ()=>{
+        image.src = URL.createObjectURL(input.files[0]);
+    });
+}
+
+// DéCLARATION DE VARIABLES NéCESSAIRES POUR LA MODAL
+const ajouterUnePhoto = document.querySelector('.add_picture');
+const goBackBtn = document.querySelector('.goBack_btn');
+const modalContent = document.querySelector('.modal_content');
+const modalHeader = document.querySelector(".modal_header_buttons");
+const initialModalContent = modalContent.innerHTML;
+
+// FONCTION POUR LE BOUTON AJOUTER PHOTO DEPUIS LA GALERIE THUMBNAILS POUR ALLER SUR LA PAGE DU FORMULAIRE NEW WORK
+function NewWorkForm() {
+    if (ajouterUnePhoto) {
+        ajouterUnePhoto.addEventListener("click", function() {
+            modalContent.innerHTML = page2.contenu;
+            goBackBtn.classList.remove('hide');
+            modalHeader.classList.add('page2');
+            switchThumbnailPage();
+
+            // Sélectionner les éléments du formulaire
+            const imagePreview = document.getElementById('image-preview');
+            const inputContainer = document.getElementById('input_img_container');
+            const newImg = document.getElementById('input_file');
+            const newTitle = document.getElementById('title');
+            const newCategory = document.getElementById('categorie-select');
+            const submitButton = document.querySelector('.valid_button');
+            const dropZone = document.querySelector('.dropZone');
+            const formulaire = document.getElementById('form_add_work');
+
+            // FONCTION POUR AFFICHER L'IMG SÉLÉCTIONNÉE
+            newImg.addEventListener('change', function() {
+                const selectedImage = newImg.files[0];
+
+                if (selectedImage) {
+                    const imageURL = URL.createObjectURL(selectedImage);
+                    imagePreview.src = imageURL;
+                    // POUR CACHER TOUS LES ÉLÉMENTS DE LA DIV À L'AFFICHAGE DE L'IMG
+                    inputContainer.style.display = 'none'; 
+                } else {
+                    imagePreview.src = ''; // EFFACER L'IMAGE SI AUCUN FICHIER N'EST SÉLECTIONNÉ
+                    inputContainer.style.display = 'flex'; 
+                }
+            });
+
+
+            
+            // VALIDATION DU FORMULAIRE D'AJOUT DE NOUVEAU PROJET
+            
+            function checkFormValidity() {
+                const isImageSelected = newImg.files[0];
+                const isTitleFilled = newTitle.value.trim() !== '';
+                const isCategorySelected = newCategory.value !== '';
+            
+                if (isImageSelected && isTitleFilled && isCategorySelected) {
+                    submitButton.removeAttribute('disabled');
+                } else {
+                    submitButton.setAttribute('disabled', 'disabled');
+                }
+            }
+
+            newImg.addEventListener('input', checkFormValidity);
+            newTitle.addEventListener('input', checkFormValidity);
+            newCategory.addEventListener('change ', checkFormValidity);
+
+            formulaire.addEventListener('submit', async function (event) {
+                event.preventDefault();
+            
+                // Code pour valider le formulaire (checkFormValidity) ou tout autre traitement nécessaire
+            
+                const formData = new FormData();
+                formData.append('image', newImg.files[0]);
+                formData.append('title', newTitle.value);
+                formData.append('category', newCategory.value);
+
+                
+                const token = localStorage.getItem("token");
+                try {
+                console.log("Avant la requête POST");
+                    const response = await fetch('http://localhost:5678/api/works', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`},
+                        body: formData
+                    });
+                console.log("Après la requête POST");
+                    if (response.ok) {
+                        const newWork = await response.json();
+                        works.push(newWork);
+                        window.localStorage.setItem("works", JSON.stringify(works)); 
+                        generateWorks(works);
+                        console.log(`Le projet ${newTitle} a correctement été ajouté`);
+                    } else {
+                        console.log(`L'ajout de ${newTitle} a échoué`, response.statusText);
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
+            });
+        });
+    }
+}
+
+
+
+
+
 function Backoffice(){
     activateBackoffice();
     openBackoffice();
     closeBackoffice();
-    deleteWork(works)
+    deleteWork(works);
+    NewWorkForm ();
 }
 
 Backoffice();
