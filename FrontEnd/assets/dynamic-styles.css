@@ -12,15 +12,10 @@
     margin-right: 10px
 }
 
-#portfolio .filterBtn:hover{
-	color: #FFFEF8;
-	background-color: #1D6154;
-}
-
-#portfolio .filterBtn:active{
-	color: #FFFEF8;
-	background-color: #1D6154;
-}
+#portfolio .filterBtn.selected {
+	color: #FFFEF8 !important;
+	background-color: #1D6154 !important;
+  }
 
 .filterContainer{
     align-self: center;

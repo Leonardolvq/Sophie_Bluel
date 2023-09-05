@@ -1,4 +1,3 @@
-
 //Fonction pour recevoir les données
 
 let works;
@@ -52,72 +51,80 @@ function generateWorks(works){
 
 generateWorks(works);
 
-//Fonction pour générer les boutons filtre
+// FONCTION POUR GÉNÉRER LES BOUTONS FILTRE
 
 async function generateFiltersBtns(works) {
-
     const filterArray = [];
     const portfolio = document.getElementById("portfolio");
     const filterContainer = document.createElement("div");
     filterContainer.classList.add("filterContainer");
 
+    // BOUTON "TOUS"
     const allBtn = document.createElement("button");
-    allBtn.classList.add("filterBtn");
+    allBtn.classList.add("filterBtn", "selected");
     allBtn.innerText = "Tous";
     allBtn.dataset.id = 123;
 
     filterContainer.appendChild(allBtn);
 
-    portfolio.appendChild(filterContainer)
+    portfolio.appendChild(filterContainer);
 
-    for (let i = 0; i < works.length; i++){
+    for (let i = 0; i < works.length; i++) {
+        const project = works[i];
+
+        // CONDITION POUR VÉRIFIER SI LA PROPRIÉTÉ 'CATEGORY' EXISTE
+        if (!project.category) {
+            continue;
+        }
+
         const filterBtn = document.createElement("button");
         filterBtn.classList.add("filterBtn");
-    
-        const category = works[i].category.id;
-        filterBtn.innerText = works[i].category.name;
-        
-        if(filterArray.includes(category)){
+
+        const category = project.category.id;
+        filterBtn.innerText = project.category.name;
+
+        if (filterArray.includes(category)) {
             continue;
         } else {
             filterArray.push(category);
-            filterBtn.dataset.id = works[i].category.id
+            filterBtn.dataset.id = category;
         }
-        
+
         filterContainer.appendChild(filterBtn);
     }
 
     const filterBtns = document.querySelectorAll(".filterBtn");
-  filterBtns.forEach(function(btn) {
-    btn.addEventListener("click", filterSettings);
-  });
+    filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", filterSettings);
+    });
 }
 
-generateFiltersBtns(works)
+generateFiltersBtns(works);
 
 function filterSettings(event) {
-    const categoryId = parseInt(event.target.dataset.id);
+    const clickedBtn = event.target;
+    const categoryId = parseInt(clickedBtn.dataset.id);
+    const filterBtns = document.querySelectorAll(".filterBtn");
 
-    if (categoryId === 123){
+    // Désactiver tous les autres boutons sauf celui cliqué
+    filterBtns.forEach(function(btn) {
+        if (btn !== clickedBtn) {
+            btn.classList.remove("selected");
+        }
+    });
+
+    // Mettre à jour la classe du bouton cliqué
+    clickedBtn.classList.add("selected");
+
+    if (categoryId === 123) {
         generateWorks(works);
     } else {
         const filteredWorks = works.filter(function(work) {
-            return work.category.id === categoryId;
-    });
-
-    console.log(categoryId);
-    console.log(filteredWorks);
-
-    generateWorks(filteredWorks);
+            return parseInt(work.categoryId) === categoryId;
+        });
+        generateWorks(filteredWorks);
     }
 }
-
-const refresh = document.querySelector('header a');
-refresh.addEventListener("click", async function(){
-    window.localStorage.removeItem('works');
-    await getData()
-    console.log("After removing works:", works);
-})
 
 //      BACKOFFICE      //
 
@@ -138,6 +145,7 @@ function activateBackoffice(){
 }
 
 function openBackoffice(){
+    console.log("openBackOffice");
     const portfolioEditBtn = document.querySelector("#portfolio .edit_btn");
     const modal = document.querySelector(".modal_container");
 
@@ -153,7 +161,6 @@ function closeBackoffice(){
         closeBtn.addEventListener("click", function(event) {
             event.preventDefault();
             modal.style.display = "none";
-            console.log(event)
         })
     })
 }
@@ -228,8 +235,8 @@ function deleteWork(works){
 }
 
 // FORMULAIRE NEW WORK DU MODAL
-const page2 = {
-    page: "ajouterUnePhoto",
+const modalForm = {
+    page: "ajouterPhoto",
     contenu : `            
     <form method="post" id="form_add_work">
         <div class="dropZone">
@@ -255,29 +262,8 @@ const page2 = {
             `
 }
 
-// FONCTION POUR RETOURNER SUR LA PAGE DE LA GALERIE THUMBNAILS
-function switchThumbnailPage() {
-    if (goBackBtn) {
-        goBackBtn.addEventListener("click", function() {
-            modalContent.innerHTML = initialModalContent;
-            goBackBtn.classList.add('hide');
-            modalHeader.classList.remove('page2');
-        });
-    }
-}
-
-// FONCTION POUR AFFICHER IMAGE DU FORMULAIRE
-function handleImageUpload() {
-    const image = document.querySelector(".selected_image");
-    const input = document.querySelector("#input_file");
-
-    input.addEventListener("change", ()=>{
-        image.src = URL.createObjectURL(input.files[0]);
-    });
-}
-
 // DéCLARATION DE VARIABLES NéCESSAIRES POUR LA MODAL
-const ajouterUnePhoto = document.querySelector('.add_picture');
+const ajouterPhoto = document.querySelector('.add_picture');
 const goBackBtn = document.querySelector('.goBack_btn');
 const modalContent = document.querySelector('.modal_content');
 const modalHeader = document.querySelector(".modal_header_buttons");
@@ -285,11 +271,15 @@ const initialModalContent = modalContent.innerHTML;
 
 // FONCTION POUR LE BOUTON AJOUTER PHOTO DEPUIS LA GALERIE THUMBNAILS POUR ALLER SUR LA PAGE DU FORMULAIRE NEW WORK
 function NewWorkForm() {
-    if (ajouterUnePhoto) {
-        ajouterUnePhoto.addEventListener("click", function() {
-            modalContent.innerHTML = page2.contenu;
+    console.log("Avant if");
+    const ajouterPhoto = document.querySelector('.add_picture');
+    if (ajouterPhoto) {
+        console.log("dans if");
+        ajouterPhoto.addEventListener("click", function() {
+            console.log("dans addEvent");
+            modalContent.innerHTML = modalForm.contenu;
             goBackBtn.classList.remove('hide');
-            modalHeader.classList.add('page2');
+            modalHeader.classList.add('modalForm');
             switchThumbnailPage();
 
             // Sélectionner les éléments du formulaire
@@ -302,25 +292,34 @@ function NewWorkForm() {
             const dropZone = document.querySelector('.dropZone');
             const formulaire = document.getElementById('form_add_work');
 
-            // FONCTION POUR AFFICHER L'IMG SÉLÉCTIONNÉE
             newImg.addEventListener('change', function() {
+                updateImagePreview();
+            });
+            
+            dropZone.addEventListener("dragover", function(event) {
+                event.preventDefault();
+            });
+            
+            dropZone.addEventListener("drop", function(event) {
+                event.preventDefault();
+                newImg.files = event.dataTransfer.files;
+                updateImagePreview();
+            });
+            
+            function updateImagePreview() {
                 const selectedImage = newImg.files[0];
-
+            
                 if (selectedImage) {
                     const imageURL = URL.createObjectURL(selectedImage);
                     imagePreview.src = imageURL;
-                    // POUR CACHER TOUS LES ÉLÉMENTS DE LA DIV À L'AFFICHAGE DE L'IMG
-                    inputContainer.style.display = 'none'; 
+                    inputContainer.style.display = 'none';
                 } else {
-                    imagePreview.src = ''; // EFFACER L'IMAGE SI AUCUN FICHIER N'EST SÉLECTIONNÉ
-                    inputContainer.style.display = 'flex'; 
+                    imagePreview.src = '';
+                    inputContainer.style.display = 'flex';
                 }
-            });
-
-
+            }
             
-            // VALIDATION DU FORMULAIRE D'AJOUT DE NOUVEAU PROJET
-            
+            // CONDITIONS REQUIRED POUR LE FORM  
             function checkFormValidity() {
                 const isImageSelected = newImg.files[0];
                 const isTitleFilled = newTitle.value.trim() !== '';
@@ -340,14 +339,12 @@ function NewWorkForm() {
             formulaire.addEventListener('submit', async function (event) {
                 event.preventDefault();
             
-                // Code pour valider le formulaire (checkFormValidity) ou tout autre traitement nécessaire
-            
                 const formData = new FormData();
                 formData.append('image', newImg.files[0]);
                 formData.append('title', newTitle.value);
-                formData.append('category', newCategory.value);
+                const newCategory = parseInt(document.getElementById('categorie-select').value);
+                formData.append('category', newCategory);
 
-                
                 const token = localStorage.getItem("token");
                 try {
                 console.log("Avant la requête POST");
@@ -357,12 +354,12 @@ function NewWorkForm() {
                             'Authorization': `Bearer ${token}`},
                         body: formData
                     });
-                console.log("Après la requête POST");
                     if (response.ok) {
                         const newWork = await response.json();
                         works.push(newWork);
                         window.localStorage.setItem("works", JSON.stringify(works)); 
                         generateWorks(works);
+                        window.location.href = "index.html"; // Retourne page d'accueil
                         console.log(`Le projet ${newTitle} a correctement été ajouté`);
                     } else {
                         console.log(`L'ajout de ${newTitle} a échoué`, response.statusText);
@@ -375,9 +372,17 @@ function NewWorkForm() {
     }
 }
 
-
-
-
+// FONCTION POUR RETOURNER SUR LA PAGE DE LA GALERIE THUMBNAILS
+function switchThumbnailPage() {
+    if (goBackBtn) {
+        goBackBtn.addEventListener("click", function() {
+            modalContent.innerHTML = initialModalContent;
+            goBackBtn.classList.add('hide');
+            modalHeader.classList.remove('modalForm');
+            NewWorkForm();
+        });
+    }
+}
 
 function Backoffice(){
     activateBackoffice();

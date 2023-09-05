@@ -21,18 +21,12 @@ async function validateForm(){
         if (response.ok) {
             const res = await response.json();
             const token = res.token;
-            console.log(JSON.stringify(res))
 
             localStorage.setItem("token", token)
-            
-            window.location.href = "index.html";
-            
-            const modale = document.querySelector(".modal")
-            if(token){
-                modale.classList.add('hide')
-            }
-            //localStorage.removeItem("token");
 
+            if(token){
+                window.location.href = "index.html";
+            }
         } else {
             console.log("Erreur lors de la requête :", response.status);
         }
