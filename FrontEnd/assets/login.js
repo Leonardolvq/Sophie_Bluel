@@ -1,4 +1,4 @@
-async function validateForm(){
+async function validateLogin(){
 
     const formLogin = document.getElementById("form-login");
     formLogin.addEventListener("submit", async function connexion(event){
@@ -6,6 +6,7 @@ async function validateForm(){
             
         const identifiant = document.getElementById("email");
         const password = document.getElementById("password");
+        const errorMessage = document.querySelector('.error_message')
         
         const response = await fetch("http://localhost:5678/api/users/login", {
             method: 'POST',
@@ -28,12 +29,14 @@ async function validateForm(){
                 window.location.href = "index.html";
             }
         } else {
-            console.log("Erreur lors de la requête :", response.status);
+            errorMessage.textContent = "Identifiants incorrects. Veuillez réessayer."
+            password.value = "";
+            identifiant.value = "";
         }
     })
 }
 
-validateForm();
+validateLogin();
 
 function removeToken(){
     const SophieBluelBtn = document.querySelector('header a');
@@ -41,6 +44,7 @@ function removeToken(){
 
     SophieBluelBtn.addEventListener("click", function(){
         localStorage.removeItem('token');
+        window.location.href = "index.html";
     })
 }
 

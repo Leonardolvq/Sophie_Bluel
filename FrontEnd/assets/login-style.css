@@ -70,3 +70,8 @@ footer{
 	align-items: center;
 	justify-content: flex-end;
 }
+
+.error_message{
+    text-align: center;
+    color: red;
+}
