@@ -1,3 +1,5 @@
+import { logOut } from './login.js'
+
 // FONCTION POUR RÉCUPÉRER LES DONNÉES
 let works;
 async function getData() {
@@ -137,6 +139,11 @@ function activateBackoffice() {
     const filterMenu = document.querySelector(".filterContainer");
 
     if (token) {
+
+        //POUR LA CHANGEMENT LOGIN/LOGOUT
+        const login = document.querySelector('.login_logout');
+        login.innerText = "logout";
+        logOut()
 
         // POUR AFFICHER LES BOUTONS DE MODIFICATION
         backoffice.style.display = "block";
